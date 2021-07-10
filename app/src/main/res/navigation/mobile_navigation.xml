@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/navigation_library"
-        android:name="com.example.xlibrary.ui.books.BookFragment"
+        android:name="com.example.xlibrary.ui.books.BookListFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_book"/>
+        tools:layout="@layout/fragment_book_list_list"/>
 
     <fragment
         android:id="@+id/navigation_account"
