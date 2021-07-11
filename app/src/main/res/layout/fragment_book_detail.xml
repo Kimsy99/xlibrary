@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp" android:paddingRight="16dp"
+    android:paddingBottom="8dp">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/background"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="250dp"-->
+<!--        app:cardCornerRadius="22dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:cardElevation="0dp"></androidx.cardview.widget.CardView>-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/book_image_card"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        app:cardCornerRadius="22dp"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="0dp">
+    <ImageView
+        android:id="@+id/book_image"
+        android:layout_width="200dp" android:layout_height="250dp"
+        android:scaleType="centerCrop" android:src="@drawable/car1"
+        />
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/mid_blue" android:textSize="24dp"
+        android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_image_card" tools:text="Book Title"/>
+
+    <TextView
+        android:id="@+id/issueStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginTop="12dp"
+        android:backgroundTint="?attr/colorSecondary"
+        android:drawablePadding="4dp"
+        android:textAlignment="center"
+        android:paddingStart="8dp" android:paddingEnd="8dp"
+        android:text="Author name" android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/titleTextView"/>
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        tools:layout_editor_absoluteX="150dp"
+        android:progressTint="#ffff8800"
+        android:numStars="5"
+        android:rating="2"
+        style="?android:attr/ratingBarStyleSmall"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        app:layout_constraintTop_toBottomOf="@+id/issueStatusTextView"
+     />
+    <LinearLayout
+        android:id="@+id/book_details"
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        android:layout_height="70dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/pages"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            tools:text="130"/>
+            <TextView
+            android:id="@+id/pages_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+            tools:text="pages"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/language"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            tools:text="English"/>
+            <TextView
+            android:id="@+id/language_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+            tools:text="language"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            tools:text="2018"/>
+            <TextView
+            android:id="@+id/year_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+
+            tools:text="Release"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/timeStampTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/book_details" tools:text="This book is damm special. It is the best book in the word, i freaking love this book. WOoohooooooooooooo. yaheee"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
