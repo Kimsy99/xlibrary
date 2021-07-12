@@ -14,11 +14,23 @@
         android:id="@+id/navigation_library"
         android:name="com.example.xlibrary.ui.books.BookListFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_book_list_list"/>
+        tools:layout="@layout/fragment_book_list_list">
+        <action
+            android:id="@+id/action_navigation_library_to_navigation_book_detail"
+            app:destination="@id/navigation_book_detail"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/navigation_library" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
         android:name="com.example.xlibrary.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account"/>
+    <fragment
+        android:id="@+id/navigation_book_detail"
+        android:name="com.example.xlibrary.ui.books.bookdetails.BookDetailFragment"
+        android:label="Book"
+        tools:layout="@layout/fragment_book_detail"
+        />
 </navigation>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,7 +66,7 @@ public class BookListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BookListRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            recyclerView.setAdapter(new BookListRecyclerViewAdapter(PlaceholderContent.ITEMS, Navigation.findNavController(getActivity(), R.id.nav_host_fragment)));
         }
         return view;
     }
