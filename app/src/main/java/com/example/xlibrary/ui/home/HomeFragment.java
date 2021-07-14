@@ -31,7 +31,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerView newBooksRecyclerView;
+    private RecyclerView newBorrowedBooksRecyclerView;
     private ArrayList<BookPreviewModel> newBookLists;
+    private ArrayList<BookPreviewModel> borrowedBookLists;
     private BookPreviewsAdapter bookPreviewsAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,15 +76,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         newBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_books);
+        newBorrowedBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_borrow_books);
         newBookLists  = new ArrayList<>();
+        borrowedBookLists  = new ArrayList<>();
         BookPreviewModel temp = new BookPreviewModel(1, "Be the best SdE", "Career", 1 );
         BookPreviewModel temp2 = new BookPreviewModel(2, "Be the best SdE", "Career", 1 );
         BookPreviewModel temp3 = new BookPreviewModel(3, "Be the best SdE", "Career", 1 );
         newBookLists.add(temp);
         newBookLists.add(temp2);
         newBookLists.add(temp3);
+        newBookLists.add(new BookPreviewModel(4, "Be the best SdE", "Career", 1 ));
+        newBookLists.add(new BookPreviewModel(5, "Test5", "Career", 1 ));
+        newBookLists.add(new BookPreviewModel(6, "I am GOod", "Friction", 1 ));
+        borrowedBookLists.add(new BookPreviewModel(1, "Borrowed Book 1", "Friction", 1 ));
+        borrowedBookLists.add(new BookPreviewModel(2, "Borrowed Book 1", "Friction", 1 ));
+        borrowedBookLists.add(new BookPreviewModel(3, "Borrowed Book 1", "Friction", 1 ));
         System.out.println(newBookLists);
         loadRecyclerCards(newBooksRecyclerView, newBookLists);
+        loadRecyclerCards(newBorrowedBooksRecyclerView, borrowedBookLists);
         return root;
     }
     private void loadRecyclerCards(RecyclerView recyclerView, ArrayList<BookPreviewModel> cardModels)

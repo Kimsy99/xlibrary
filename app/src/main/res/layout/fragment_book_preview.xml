@@ -32,6 +32,7 @@
             android:id="@+id/book_preview_title"
             android:maxLines="1"
             android:ellipsize="end"
+            android:textAlignment="center"
             android:text="Be the best software Engineer"
             android:textSize="18dp"
             android:textColor="@color/black" />
