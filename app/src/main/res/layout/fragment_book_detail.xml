@@ -179,9 +179,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:backgroundTint="@color/green"
-
-
-        android:text="Read"
+        android:text="Borrow"
         />
         <View
             android:layout_width="0dp"
