@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xlibrary.R;
@@ -19,10 +21,12 @@ import java.util.List;
 public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapter.BookPreviewCardHolder> {
     private ArrayList<BookPreviewModel> bookPreviewCardList;
     private OnCardListener onCardListener;
+    private NavController navController;
 
-    public BookPreviewsAdapter(ArrayList<BookPreviewModel> bookPreviewCardList, OnCardListener onCardListener){
+    public BookPreviewsAdapter(ArrayList<BookPreviewModel> bookPreviewCardList, NavController navController, OnCardListener onCardListener){
         this.bookPreviewCardList = bookPreviewCardList;
         this.onCardListener = onCardListener;
+        this.navController = navController;
     }
 
     @NonNull
@@ -38,6 +42,10 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
         System.out.println("card: " + card);
         holder.title.setText(card.title);
         holder.category.setText(card.category);
+//        holder.image.setImageBitmap(card.bookImage);
+        holder.bookCardItemLayout.setOnClickListener(v -> {
+           navController.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail());
+        });
     }
 
     @Override
@@ -48,9 +56,8 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
     {
         public TextView title, category;
         public ImageView image;
-        private LinearLayout announcementCardItemLayout;
+        private LinearLayout bookCardItemLayout;
         OnCardListener onCardListener;
-        private boolean isAnnouncement;
 
         public BookPreviewCardHolder(@NonNull View itemView, OnCardListener onCardListener)
         {
@@ -58,7 +65,7 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
             title = itemView.findViewById(R.id.book_preview_title);
             category = itemView.findViewById(R.id.book_preview_category);
 //            image = itemView.findViewById(R.id.card_book_preview_image);
-            announcementCardItemLayout = itemView.findViewById(R.id.book_card_preview_view);
+            bookCardItemLayout = itemView.findViewById(R.id.book_card_preview_view);
             this.onCardListener = onCardListener;
 
             itemView.setOnClickListener(this);
@@ -67,7 +74,10 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
         @Override
         public void onClick(View view)
         {
+//            navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
 //            onCardListener.onCardClick(getAbsoluteAdapterPosition(), isAnnouncement);
+//            navController.navigate(R.id.action_navigation_library_to_navigation_book_detail);
+//            ActionFragmentHomeToFragmentCardDetails action = HomeFragmentDirections.actionFragmentHomeToFragmentCardDetails(position, isAnnouncement);
         }
     }
 }

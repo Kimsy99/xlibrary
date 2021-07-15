@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -43,6 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     private String mParam1;
     private String mParam2;
     private DatabaseHelper databaseHelper;
+    private NavController navController;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -122,7 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     }
     private void loadRecyclerCards(RecyclerView recyclerView, ArrayList<BookPreviewModel> cardModels)
     {
-        bookPreviewsAdapter= new BookPreviewsAdapter(cardModels, this);
+        bookPreviewsAdapter= new BookPreviewsAdapter(cardModels, Navigation.findNavController(getActivity(), R.id.nav_host_fragment), this);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -141,6 +144,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
 
     @Override
     public void onCardClick(int position, boolean isAnnouncement) {
+//        HomeFragmentDirections.ActionNavigationHomeToNavigationBookDetail action = HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail();
 
     }
 }
