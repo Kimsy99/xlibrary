@@ -1,6 +1,9 @@
 package com.example.xlibrary.ui.books;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,8 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
+import com.example.xlibrary.model.BookCardModel;
+import com.example.xlibrary.model.BookPreviewModel;
 import com.example.xlibrary.ui.books.placeholder.PlaceholderContent;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -25,7 +33,7 @@ public class BookListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-
+    DatabaseHelper databaseHelper;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -56,7 +64,7 @@ public class BookListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list_list, container, false);
-
+        databaseHelper = new DatabaseHelper(getActivity());
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -66,8 +74,25 @@ public class BookListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BookListRecyclerViewAdapter(PlaceholderContent.ITEMS, Navigation.findNavController(getActivity(), R.id.nav_host_fragment)));
+            recyclerView.setAdapter(new BookListRecyclerViewAdapter(getBookList(), Navigation.findNavController(getActivity(), R.id.nav_host_fragment)));
         }
         return view;
+    }
+    public ArrayList<BookCardModel> getBookList(){
+        Cursor books = databaseHelper.getAllBooks();
+        ArrayList<BookCardModel> bookList = new ArrayList<>();
+        while(books.moveToNext()){
+            byte[] issueImageBytes = books.getBlob(3);
+            Bitmap bitmap = issueImageBytes != null ? BitmapFactory.decodeByteArray(issueImageBytes, 0, issueImageBytes.length) : null;
+            bookList.add(new BookCardModel(
+                    books.getInt(0),
+                    books.getString(1),
+                    books.getString(2),
+                    books.getString(4),
+                    bitmap
+            ));
+        }
+        books.close();
+        return bookList;
     }
 }

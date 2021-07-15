@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xlibrary.R;
 import com.example.xlibrary.databinding.FragmentBookListBinding;
+import com.example.xlibrary.model.BookCardModel;
 import com.example.xlibrary.ui.books.placeholder.PlaceholderContent.PlaceholderItem;
 //import com.example.xlibrary.ui.books.databinding.FragmentBookListBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +25,9 @@ import java.util.List;
  */
 public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final ArrayList<BookCardModel> mValues;
     private final NavController navController;
-    public BookListRecyclerViewAdapter(List<PlaceholderItem> items, NavController navController) {
+    public BookListRecyclerViewAdapter(ArrayList<BookCardModel> items, NavController navController) {
         mValues = items;
         this.navController = navController;
     }
@@ -38,9 +41,11 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+//        holder.mItem = mValues.get(position);
+        holder.mTitle.setText(mValues.get(position).title);
+        holder.mAuthor.setText(mValues.get(position).author);
+        holder.mCategory.setText(mValues.get(position).category);
+        holder.mImage.setImageBitmap(mValues.get(position).bookImage);
         holder.mBookCardView.setOnClickListener(click -> {
            System.out.println("CLICKKKKKKK");
             navController.navigate(R.id.action_navigation_library_to_navigation_book_detail);
@@ -55,21 +60,34 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mBookCardView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTitle;
+        public final TextView mAuthor;
+        public final TextView mCategory;
+        public final ImageView mImage;
+//        public final TextView mPages;
+//        public final TextView mLanguage;
+//        public final TextView mYear;
+//        public final TextView mDescription;
+
+//        public final TextView mIdView;
+//        public final TextView mContentView;
         public PlaceholderItem mItem;
 
         public ViewHolder(FragmentBookListBinding binding) {
             super(binding.getRoot());
 //            this.mBookCardView = mBookCardView;
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+//            mIdView = binding.itemNumber;
+//            mContentView = binding.content;
+            mTitle = binding.title;
+            mAuthor = binding.author;
+            mCategory = binding.category;
+            mImage = binding.cardBookImage;
             mBookCardView = binding.bookCardView;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTitle.getText() + "'";
         }
     }
 }

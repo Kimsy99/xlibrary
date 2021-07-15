@@ -24,7 +24,7 @@
         app:cardElevation="0dp">
 
         <ImageView
-            android:id="@+id/card_announcement_image"
+            android:id="@+id/card_book_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -49,11 +49,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:id="@+id/title"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="Be the best software Engineer"
+            android:text="Be the best "
             android:textSize="18dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -76,18 +76,6 @@
         android:paddingRight="24dp"
         android:textStyle="bold"
         android:text=">"/>
-    <TextView
-        android:id="@+id/item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>
 </androidx.cardview.widget.CardView>
