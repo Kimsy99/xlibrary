@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
 import com.example.xlibrary.model.BookModel;
+import com.example.xlibrary.model.UserSession;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +37,7 @@ public class BookDetailFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    UserSession userSession;
 
     public BookDetailFragment() {
         // Required empty public constructor
@@ -63,6 +65,7 @@ public class BookDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new DatabaseHelper(getContext());
+        userSession = db.getCurrentUserCreds();
         BookDetailFragmentArgs args = BookDetailFragmentArgs.fromBundle(getArguments());
         System.out.println("args: " + args.getBookId());
         Cursor cursor = db.getBookDetails(args.getBookId());
@@ -110,7 +113,7 @@ public class BookDetailFragment extends Fragment {
         year.setText(Integer.toString(bookModel.release_year));
         book_desc.setText(bookModel.description);
         //mock user_id = 1;
-        int user_id =1;
+        int user_id = userSession.uid;
 
         if(bookModel.borrowed == 1){
             if(bookModel.borrower_id == user_id){

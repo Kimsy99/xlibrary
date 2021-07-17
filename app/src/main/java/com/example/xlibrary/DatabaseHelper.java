@@ -1,6 +1,7 @@
 package com.example.xlibrary;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import androidx.annotation.Nullable;
+
+import com.example.xlibrary.model.UserSession;
 
 import java.io.ByteArrayOutputStream;
 
@@ -78,6 +81,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         onCreate(sqLiteDatabase);
     }
+    public UserSession getCurrentUserCreds()
+{
+        SharedPreferences sp = context.getSharedPreferences("info", 0);
+        return new UserSession(sp.getInt("id", -1), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""));
+    }
     public Cursor getAllBooks(){
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("SELECT book_id, book_title, book_category, book_image, book_author FROM books", null);
@@ -86,9 +94,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("SELECT book_id, book_title, book_category, book_image FROM books ORDER BY created_date DESC LIMIT 3;", null);
     }
-    public Cursor getBorrowedBooks(){
+    public Cursor getBorrowedBooks(int uid){
         SQLiteDatabase db = getWritableDatabase();
-        return db.rawQuery("select books.book_id, books.book_title, books.book_category, books.book_image from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid=1 ORDER BY books.created_date desc;", null);
+        return db.rawQuery("select books.book_id, books.book_title, books.book_category, books.book_image from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid= " + uid +" ORDER BY books.created_date desc;", null);
     }
     public Cursor getBookDetails(int id){
         SQLiteDatabase db = getWritableDatabase();

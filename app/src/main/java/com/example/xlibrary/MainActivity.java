@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+
 
         // Set up navigation component from Android Jetpack library
         // Navigation handles navigation between screens/fragments as well as things like data passing and transitions.

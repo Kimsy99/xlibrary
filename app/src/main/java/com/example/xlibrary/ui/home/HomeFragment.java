@@ -3,6 +3,7 @@ package com.example.xlibrary.ui.home;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,11 +18,14 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
 import com.example.xlibrary.model.BookPreviewModel;
+import com.example.xlibrary.model.UserSession;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -47,6 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     private String mParam2;
     private DatabaseHelper databaseHelper;
     private NavController navController;
+    UserSession userSession;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -83,6 +88,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         databaseHelper = new DatabaseHelper(getContext());
+        userSession = databaseHelper.getCurrentUserCreds();
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         TextView bookNo = root.findViewById(R.id.bookNo);
         TextView borrowedBookNo = root.findViewById(R.id.borrowedBookNo);
@@ -97,6 +103,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         loadRecyclerCards(newBooksRecyclerView, newBookLists);
         loadRecyclerCards(newBorrowedBooksRecyclerView, borrowedBookLists);
 //        loadRecyclerCards(newBorrowedBooksRecyclerView, newBookLists);
+
+        //play video
+        VideoView videoView = root.findViewById(R.id.promotional_video);
+        String videoPath = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.lib_promo_vid;
+        Uri uri = Uri.parse(videoPath);
+        videoView.setVideoURI(uri);
+        MediaController mediaController = new MediaController(getActivity());
+        videoView.setMediaController(mediaController);
+        mediaController.setAnchorView(videoView);
         return root;
     }
     private int getBookCount(){
@@ -108,7 +123,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         }
     }
     private int getBorrowedBookCount(){
-        Cursor cursor = databaseHelper.getBorrowedBookCount(1);
+        Cursor cursor = databaseHelper.getBorrowedBookCount(userSession.uid);
         if(cursor.moveToFirst()){
             return cursor.getInt(0);
         }else{
@@ -132,7 +147,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     }
     private void getBorrowedBooks(){
         borrowedBookLists  = new ArrayList<>();
-        Cursor borrowedBooks = databaseHelper.getBorrowedBooks();
+
+        Cursor borrowedBooks = databaseHelper.getBorrowedBooks(userSession.uid);
         while(borrowedBooks.moveToNext()){
             byte[] issueImageBytes = borrowedBooks.getBlob(3);
             Bitmap bitmap = issueImageBytes != null ? BitmapFactory.decodeByteArray(issueImageBytes, 0, issueImageBytes.length) : null;
