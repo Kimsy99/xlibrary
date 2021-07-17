@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="outlinedbox_text_input_layout_style" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">24dp</item>
+        <item name="boxCornerRadiusBottomStart">24dp</item>
+        <item name="boxCornerRadiusTopEnd">24dp</item>
+        <item name="boxCornerRadiusTopStart">24dp</item>
+    </style>
+    <style name="outlinedbox_text_input_style">
+        <item name="android:drawableTint">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="rounded_material_button_style">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="backgroundTint">@color/dark_blue</item>
+    </style>
+</resources>

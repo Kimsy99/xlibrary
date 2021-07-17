@@ -33,14 +33,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    book_language TEXT default 0 not null,\n" +
                 "    book_release_year int not null,\n" +
                 "    book_description TEXT not null,\n" +
-                "    borrowed int not null,\n" +
+                "    borrowed_by int not null,\n" +
                 "    created_date int not null,\n" +
                 "    book_image BLOB\n" +
                 ");");
         String sql = ("insert into books(book_id, book_title, book_author, book_category,book_pages, book_language, book_release_year, book_description, borrowed, created_date, book_image) values\n" +
-                "(1,'How to be the best Software Engineer', 'Sheng Yong', 'Careers',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 0, 1626253530, ?),\n" +
-                "(2,'Guide for programmer', 'Sheng Yong', 'Self Improvement',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 0,1626253560,?),\n" +
-                "(3,'Happy Morter', 'JK Bowling', 'Friction',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 0, 1626253360,?),\n" +
+                "(1,'How to be the best Software Engineer', 'Sheng Yong', 'Careers',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 1, 1626253530, ?),\n" +
+                "(2,'Guide for programmer', 'Sheng Yong', 'Self Improvement',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 1,1626253560,?),\n" +
+                "(3,'Happy Morter', 'JK Bowling', 'Friction',2222, 'English', 2018, 'This is the best book we ever had. THis book would guide you', 1, 1626253360,?),\n" +
                 "(4,'Namoto', 'Satoshi', 'Comic',2222, 'Japanese', 2018, 'This is the best book we ever had. THis book would guide you', 0, 1626253460,?);\n");
 //        AndroidUtils.getBlobFromResource(context.getResources(), R.drawable.car1)
         SQLiteStatement insert = sqLiteDatabase.compileStatement(sql);
@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    uid INTEGER primary key autoincrement ,\n" +
                 "    username TEXT not null,\n" +
                 "    password TEXT not null,\n" +
-                "    email TEXT not null\n" +
+                "    email TEXT unique not null\n" +
                 ");");
         sqLiteDatabase.execSQL("insert into user(username, password, email) VALUES\n" +
                 "('kimsy', 'kimsy', 'kimsy@gmail.com'),\n" +
@@ -90,7 +90,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("select books.book_id, books.book_title, books.book_category, books.book_image from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid=1 ORDER BY books.created_date desc;", null);
     }
-
+    public Cursor getBookDetails(int id){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.rawQuery("SELECT books.book_id, book_title, book_author, book_category, book_pages, book_language, book_release_year, book_description, borrowed, book_image, uid as borrower_id  FROM books LEFT JOIN borrowed_books as bb ON books.book_id = bb.book_id WHERE books.book_id = " + id + ";", null);
+    }
+    public Cursor getBookCount(){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.rawQuery("SELECT count(*) as bookNo FROM books", null);
+    }
+    public Cursor getBorrowedBookCount(int uid){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.rawQuery("select count(*) from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid=" + uid +" ORDER BY books.created_date desc;", null);
+    }
+    public boolean addUser(String username, String email, String password){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("INSERT INTO user(username, password, email) values (?, ?, ?)", new Object[] {username, password, email});
+        return true;
+    }
+    public Cursor getUser(String email, String password){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.rawQuery("SELECT uid, username, password, email FROM user WHERE email='" + email + "' AND password='" + password + "'", null);
+    }
     public static byte[] getBitmapAsByteArray(Bitmap bitmap)
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
@@ -83,6 +84,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         // Inflate the layout for this fragment
         databaseHelper = new DatabaseHelper(getContext());
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        TextView bookNo = root.findViewById(R.id.bookNo);
+        TextView borrowedBookNo = root.findViewById(R.id.borrowedBookNo);
+        bookNo.setText(Integer.toString(getBookCount()));
+        borrowedBookNo.setText(Integer.toString(getBorrowedBookCount()));
         newBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_books);
         newBorrowedBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_borrow_books);
         getNewBooks();
@@ -93,6 +98,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         loadRecyclerCards(newBorrowedBooksRecyclerView, borrowedBookLists);
 //        loadRecyclerCards(newBorrowedBooksRecyclerView, newBookLists);
         return root;
+    }
+    private int getBookCount(){
+        Cursor cursor = databaseHelper.getBookCount();
+        if(cursor.moveToFirst()){
+            return cursor.getInt(0);
+        }else{
+            return 0;
+        }
+    }
+    private int getBorrowedBookCount(){
+        Cursor cursor = databaseHelper.getBorrowedBookCount(1);
+        if(cursor.moveToFirst()){
+            return cursor.getInt(0);
+        }else{
+            return 0;
+        }
     }
     private void getNewBooks(){
         newBookLists  = new ArrayList<>();

@@ -44,7 +44,7 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
         holder.category.setText(card.category);
 //        holder.image.setImageBitmap(card.bookImage);
         holder.bookCardItemLayout.setOnClickListener(v -> {
-           navController.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail());
+           navController.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail(card.id));
         });
     }
 

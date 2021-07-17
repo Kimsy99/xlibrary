@@ -14,6 +14,7 @@ import com.example.xlibrary.R;
 import com.example.xlibrary.databinding.FragmentBookListBinding;
 import com.example.xlibrary.model.BookCardModel;
 import com.example.xlibrary.ui.books.placeholder.PlaceholderContent.PlaceholderItem;
+import com.example.xlibrary.ui.home.HomeFragmentDirections;
 //import com.example.xlibrary.ui.books.databinding.FragmentBookListBinding;
 
 import java.util.ArrayList;
@@ -48,7 +49,9 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRe
         holder.mImage.setImageBitmap(mValues.get(position).bookImage);
         holder.mBookCardView.setOnClickListener(click -> {
            System.out.println("CLICKKKKKKK");
-            navController.navigate(R.id.action_navigation_library_to_navigation_book_detail);
+//            navController.navigate(R.id.action_navigation_library_to_navigation_book_detail);
+            navController.navigate(BookListFragmentDirections.actionNavigationLibraryToNavigationBookDetail(mValues.get(position).id));
+//            navController.navigate();
         });
 
     }

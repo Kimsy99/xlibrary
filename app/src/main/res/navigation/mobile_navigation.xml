@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_book_detail"
             app:destination="@id/navigation_book_detail" />
-<!--        <argument-->
-<!--            android:name="book_id"-->
-<!--            app:argType="integer" />-->
     </fragment>
     <fragment
         android:id="@+id/navigation_library"
@@ -39,5 +36,10 @@
         android:name="com.example.xlibrary.ui.books.bookdetails.BookDetailFragment"
         android:label="Book"
         tools:layout="@layout/fragment_book_detail"
-        />
+        >
+        <argument
+            android:name="book_id"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>
