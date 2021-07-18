@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
@@ -68,6 +69,7 @@ public class BookDetailFragment extends Fragment {
         userSession = db.getCurrentUserCreds();
         BookDetailFragmentArgs args = BookDetailFragmentArgs.fromBundle(getArguments());
         System.out.println("args: " + args.getBookId());
+        System.out.println("args: " + args.getBookId());
         Cursor cursor = db.getBookDetails(args.getBookId());
         if(cursor.moveToFirst()){
 //            bookModel.id = cursor.getInt(0);
@@ -80,8 +82,9 @@ public class BookDetailFragment extends Fragment {
 //            bookModel.description = cursor.getString(7);
 //            bookModel.borrowed= cursor.getInt(8);
             byte[] bookImageBytes = cursor.getBlob(9);
+            System.out.println("borrowed? " + cursor.getInt(8));
             Bitmap bitmap = bookImageBytes != null ? BitmapFactory.decodeByteArray(bookImageBytes, 0, bookImageBytes.length) : null;
-            bookModel = new BookModel(cursor.getInt(0), cursor.getString(1), cursor.getString(3),cursor.getString(2),cursor.getInt(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7),cursor.getInt(8),bitmap, cursor.getInt(10));
+            bookModel = new BookModel(cursor.getInt(0), cursor.getString(1), cursor.getString(3),cursor.getString(2),cursor.getInt(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7),cursor.getInt(8),bitmap, cursor.getInt(10),cursor.getInt(11), cursor.getInt(12));
         }
         cursor.close();
 //        if (getArguments() != null) {
@@ -104,7 +107,7 @@ public class BookDetailFragment extends Fragment {
         TextView year = view.findViewById(R.id.year);
         TextView book_desc = view.findViewById(R.id.book_desc);
         Button btn = view.findViewById(R.id.submit_btn);
-        System.out.println("bookModel: " + bookModel.pages);
+        System.out.println("bookModel: " + bookModel.return_date);
         bookImage.setImageBitmap(bookModel.bookImage);
         title.setText(bookModel.title);
         author.setText(bookModel.author);
@@ -116,9 +119,15 @@ public class BookDetailFragment extends Fragment {
         int user_id = userSession.uid;
 
         if(bookModel.borrowed == 1){
-            if(bookModel.borrower_id == user_id){
+            if(bookModel.borrower_id == user_id && bookModel.return_date == 0){
                 btn.setText("RETURN");
                 btn.setBackgroundColor(Color.parseColor("#fc3158"));
+                btn.setOnClickListener(v -> {
+                    db.returnBook(bookModel.book_borrow_id, bookModel.id);
+                    Toast.makeText(getContext(), "You had returned successfully. Thank you!", Toast.LENGTH_SHORT).show();
+                    btn.setText("BORROW");
+                btn.setBackgroundColor(Color.parseColor("#32BC69"));
+                });
             }else{
                 btn.setText("Unavailable");
                 btn.setBackgroundColor(Color.parseColor("#F3F3F3"));
@@ -127,7 +136,12 @@ public class BookDetailFragment extends Fragment {
             }
         }else{
             btn.setText("BORROW");
-
+            btn.setOnClickListener(v ->{
+                db.borrowBook(bookModel.id, user_id);
+                Toast.makeText(getContext(), "You had successfully borrowed the book! Pick up at XLibrary anytime from now!!", Toast.LENGTH_SHORT).show();
+            btn.setText("RETURN");
+            btn.setBackgroundColor(Color.parseColor("#fc3158"));
+            });
         }
         return view;
     }

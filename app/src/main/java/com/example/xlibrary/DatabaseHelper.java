@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.xlibrary.model.UserSession;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -36,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    book_language TEXT default 0 not null,\n" +
                 "    book_release_year int not null,\n" +
                 "    book_description TEXT not null,\n" +
-                "    borrowed_by int not null,\n" +
+                "    borrowed int not null,\n" +
                 "    created_date int not null,\n" +
                 "    book_image BLOB\n" +
                 ");");
@@ -69,11 +70,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(\n" +
                 "    borrowed_id INTEGER primary key autoincrement ,\n" +
                 "    uid int not null,\n" +
-                "    book_id int not null );");
-        sqLiteDatabase.execSQL("insert into borrowed_books(uid, book_id) VALUES\n" +
-                "(1, 1),\n" +
-                "(1, 2),\n" +
-                "(2, 3);\n");
+                "    book_id int not null,\n" +
+                "    borrow_date int not null,\n" +
+                "    return_date int default 0\n" +
+                ");\n");
+        sqLiteDatabase.execSQL("insert into borrowed_books(uid, book_id, borrow_date, return_date) VALUES\n" +
+                "(1, 1, 1626253560, 0),\n" +
+                "(1, 2,1626253560, 0),\n" +
+                "(2, 3, 1626253560, 0);");
 
     }
 
@@ -96,11 +100,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getBorrowedBooks(int uid){
         SQLiteDatabase db = getWritableDatabase();
-        return db.rawQuery("select books.book_id, books.book_title, books.book_category, books.book_image from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid= " + uid +" ORDER BY books.created_date desc;", null);
+        return db.rawQuery("select books.book_id, books.book_title, books.book_category, books.book_image from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.return_date = 0 AND borrowed_books.uid= " + uid +" ORDER BY books.created_date desc;", null);
     }
     public Cursor getBookDetails(int id){
         SQLiteDatabase db = getWritableDatabase();
-        return db.rawQuery("SELECT books.book_id, book_title, book_author, book_category, book_pages, book_language, book_release_year, book_description, borrowed, book_image, uid as borrower_id  FROM books LEFT JOIN borrowed_books as bb ON books.book_id = bb.book_id WHERE books.book_id = " + id + ";", null);
+        return db.rawQuery("SELECT books.book_id, book_title, book_author, book_category, book_pages, book_language, book_release_year, book_description, borrowed, book_image, uid as borrower_id, borrowed_id, return_date  FROM books LEFT JOIN borrowed_books as bb ON books.book_id = bb.book_id WHERE books.book_id = " + id + " ORDER BY borrow_date DESC;", null);
     }
     public Cursor getBookCount(){
         SQLiteDatabase db = getWritableDatabase();
@@ -109,6 +113,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getBorrowedBookCount(int uid){
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("select count(*) from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.uid=" + uid +" ORDER BY books.created_date desc;", null);
+    }
+    public Cursor getCurrBorrowedBookCount(int uid){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.rawQuery("select count(*) from books left join borrowed_books on books.book_id = borrowed_books.book_id where borrowed_books.return_date = 0 AND borrowed_books.uid=" + uid +" ORDER BY books.created_date desc;", null);
     }
     public boolean addUser(String username, String email, String password){
         SQLiteDatabase db = getWritableDatabase();
@@ -127,6 +135,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean editPassword(int uid, String password){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE user SET password = '" + password  + "' WHERE uid = " +uid);
+        return true;
+    }
+    public boolean returnBook(int borrow_id, int book_id){
+        SQLiteDatabase db = getWritableDatabase();
+        long currWhole = new Date().getTime();
+        long curr = Long.parseLong((""+currWhole).substring(0,10));
+        db.execSQL("UPDATE borrowed_books SET return_date = " + curr + " WHERE borrowed_id=" + borrow_id);
+        db.execSQL("UPDATE books SET borrowed = 0 WHERE book_id=" + book_id);
+        return true;
+    }
+    public boolean borrowBook(int book_id, int user_id){
+        SQLiteDatabase db = getWritableDatabase();
+        long currWhole = new Date().getTime();
+        long curr = Long.parseLong((""+currWhole).substring(0,10));
+        db.execSQL("INSERT INTO borrowed_books(uid, book_id, borrow_date) VALUES (?,?,?)", new Object[] {user_id, book_id, curr});
+        db.execSQL("UPDATE books SET borrowed = 1 WHERE book_id=" + book_id);
         return true;
     }
     public static byte[] getBitmapAsByteArray(Bitmap bitmap)

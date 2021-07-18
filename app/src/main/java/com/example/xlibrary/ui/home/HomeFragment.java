@@ -96,8 +96,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         welcomeText.setText(welcome);
         TextView bookNo = root.findViewById(R.id.bookNo);
         TextView borrowedBookNo = root.findViewById(R.id.borrowedBookNo);
+        TextView currBorrowedBookNo = root.findViewById(R.id.curr_borrowed_book_no);
         bookNo.setText(Integer.toString(getBookCount()));
         borrowedBookNo.setText(Integer.toString(getBorrowedBookCount()));
+        currBorrowedBookNo.setText(Integer.toString(getCurrBorrowedBookCount()));
         newBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_books);
         newBorrowedBooksRecyclerView = root.findViewById(R.id.home_RecyclerView_borrow_books);
         getNewBooks();
@@ -130,6 +132,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         Cursor cursor = databaseHelper.getBorrowedBookCount(userSession.uid);
         if(cursor.moveToFirst()){
             System.out.println("borrowed book: " + cursor.getInt(0));
+            return cursor.getInt(0);
+        }else{
+            return 0;
+        }
+    }private int getCurrBorrowedBookCount(){
+        Cursor cursor = databaseHelper.getCurrBorrowedBookCount(userSession.uid);
+        if(cursor.moveToFirst()){
             return cursor.getInt(0);
         }else{
             return 0;
