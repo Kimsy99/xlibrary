@@ -1,14 +1,25 @@
 package com.example.xlibrary.ui.account;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ShareActionProvider;
+import android.widget.TextView;
 
+import com.example.xlibrary.DatabaseHelper;
 import com.example.xlibrary.R;
+import com.example.xlibrary.model.UserSession;
+
+import org.w3c.dom.Text;
+
+import java.awt.font.TextAttribute;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,11 +32,12 @@ public class AccountFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    NavController navController;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    DatabaseHelper db;
+    UserSession userSession;
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -51,16 +63,37 @@ public class AccountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        db = new DatabaseHelper(getContext());
+        userSession = db.getCurrentUserCreds();
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        TextView profileTextView = view.findViewById(R.id.profile);
+        TextView signOutTextView = view.findViewById(R.id.log_out);
+        TextView accountUsernameTextView = view.findViewById(R.id.account_username);
+        TextView changePwdTextView = view.findViewById(R.id.change_password);
+        accountUsernameTextView.setText(userSession.username);
+        profileTextView.setOnClickListener(v -> {
+            navController.navigate(AccountFragmentDirections.actionNavigationAccountToNavigationProfile());
+        });
+        TextView editProfileTextView = view.findViewById(R.id.edit_info);
+        editProfileTextView.setOnClickListener(v -> {
+            navController.navigate(AccountFragmentDirections.actionNavigationAccountToNavigationEditProfile());
+        });
+        changePwdTextView.setOnClickListener(v -> {
+            navController.navigate(AccountFragmentDirections.actionNavigationAccountToNavigationChangePassword());
+        });
+        signOutTextView.setOnClickListener(v -> {
+            SharedPreferences info = getContext().getSharedPreferences("user", 0);
+            info.edit().clear().apply();
+
+            getActivity().finish();
+        });
+        return view;
     }
 }

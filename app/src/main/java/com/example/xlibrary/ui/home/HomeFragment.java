@@ -90,6 +90,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         databaseHelper = new DatabaseHelper(getContext());
         userSession = databaseHelper.getCurrentUserCreds();
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        TextView welcomeText = root.findViewById(R.id.welcome_text);
+        String welcome = "Welcome back, " + userSession.username;
+        System.out.println("welcome: " + welcome);
+        welcomeText.setText(welcome);
         TextView bookNo = root.findViewById(R.id.bookNo);
         TextView borrowedBookNo = root.findViewById(R.id.borrowedBookNo);
         bookNo.setText(Integer.toString(getBookCount()));
@@ -125,6 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     private int getBorrowedBookCount(){
         Cursor cursor = databaseHelper.getBorrowedBookCount(userSession.uid);
         if(cursor.moveToFirst()){
+            System.out.println("borrowed book: " + cursor.getInt(0));
             return cursor.getInt(0);
         }else{
             return 0;

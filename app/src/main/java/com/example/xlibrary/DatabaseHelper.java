@@ -83,8 +83,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public UserSession getCurrentUserCreds()
 {
-        SharedPreferences sp = context.getSharedPreferences("info", 0);
-        return new UserSession(sp.getInt("id", -1), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""));
+        SharedPreferences sp = context.getSharedPreferences("user", 0);
+        return new UserSession(sp.getInt("uid", 0), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""));
     }
     public Cursor getAllBooks(){
         SQLiteDatabase db = getWritableDatabase();
@@ -118,6 +118,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getUser(String email, String password){
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("SELECT uid, username, password, email FROM user WHERE email='" + email + "' AND password='" + password + "'", null);
+    }
+    public boolean editProfile(int uid, String username, String email){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE user SET username = '" + username  + "', email = '" + email + "' WHERE uid = " +uid);
+        return true;
+    }
+    public boolean editPassword(int uid, String password){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE user SET password = '" + password  + "' WHERE uid = " +uid);
+        return true;
     }
     public static byte[] getBitmapAsByteArray(Bitmap bitmap)
     {

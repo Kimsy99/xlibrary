@@ -30,7 +30,18 @@
         android:id="@+id/navigation_account"
         android:name="com.example.xlibrary.ui.account.AccountFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/fragment_account"/>
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:popUpTo="@id/navigation_library" />
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_edit_profile"
+            app:destination="@id/navigation_edit_profile" />
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_change_password"
+            app:destination="@id/navigation_change_password" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_book_detail"
         android:name="com.example.xlibrary.ui.books.bookdetails.BookDetailFragment"
@@ -41,5 +52,22 @@
             android:name="book_id"
             app:argType="integer" />
     </fragment>
-
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.xlibrary.ui.account.profile.ViewProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_view_profile"
+        />
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.example.xlibrary.ui.account.profile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile"
+        />
+    <fragment
+        android:id="@+id/navigation_change_password"
+        android:name="com.example.xlibrary.ui.account.profile.ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password"
+        android:label="Change Password"
+        />
 </navigation>

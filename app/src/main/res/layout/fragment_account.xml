@@ -80,105 +80,139 @@
                 </LinearLayout>
             </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:id="@+id/account_billing_address_title"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="user ID"
-                android:textColor="@color/mid_blue" android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/account_billing_address"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
-                android:text="No.12345"
-                android:textSize="14sp"/>
+<!--            <TextView-->
+<!--                android:id="@+id/account_billing_address_title"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="user ID"-->
+<!--                android:textColor="@color/mid_blue" android:textSize="14sp"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/account_billing_address"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:text="No.12345"-->
+<!--                android:textSize="14sp"/>-->
 
-            <TextView
-                android:id="@+id/account_email_title"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
-                android:text="EMAIL: "
-                android:textColor="@color/mid_blue"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/account_email"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
-                android:text="johndoe@example.com" android:textSize="14sp"/>
+<!--            <TextView-->
+<!--                android:id="@+id/account_email_title"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="EMAIL: "-->
+<!--                android:textColor="@color/mid_blue"-->
+<!--                android:textSize="14sp"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/account_email"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:text="johndoe@example.com" android:textSize="14sp"/>-->
 
-            <TextView
-                android:id="@+id/account_phone_title"
+<!--            <TextView-->
+<!--                android:id="@+id/account_phone_title"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="PHONE NUMBER: "-->
+<!--                android:textColor="@color/mid_blue"-->
+<!--                android:textSize="14sp"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/account_phone"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:text="012-3456789" android:textSize="14sp"/>-->
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
-                android:text="PHONE NUMBER: "
-                android:textColor="@color/mid_blue"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/account_phone"
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
-                android:text="012-3456789" android:textSize="14sp"/>
-
+                android:layout_height="8dp"
+                android:background="#f3f3f3"/>
             <RelativeLayout
-                android:id="@+id/change_billing_address"
+                android:id="@+id/profile_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/account_change_billing_address"
+                    android:clickable="true"
+                    android:id="@+id/profile"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="?attr/selectableItemBackground"
-                    android:drawableStart="@drawable/ic_account_icon" android:drawablePadding="16dp"
-                    android:drawableTint="@color/mid_blue"
+                    android:drawableEnd="@drawable/ic_arrow_pointer"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:paddingStart="24dp" android:paddingEnd="24dp" android:paddingTop="16dp" android:paddingBottom="16dp"
-                    android:text="Edit Information" android:textSize="18sp"/>
+                    android:text="My Profile" android:textSize="18sp"/>
             </RelativeLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_height="1dp"
+                android:background="#f3f3f3"/>
             <RelativeLayout
-                android:id="@+id/change_password"
+                android:id="@+id/edit_info_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/account_change_password"
+                    android:id="@+id/edit_info"
+                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="?attr/selectableItemBackground"
-                    android:drawableStart="@drawable/ic_book_icon"
-                    android:drawablePadding="16dp" android:drawableTint="@color/mid_blue"
-                    android:paddingStart="24dp" android:paddingEnd="24dp"
-                    android:paddingTop="16dp" android:paddingBottom="16dp" android:text="Change Password"
-                    android:textSize="18sp"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/log_out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/account_log_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:drawableStart="@drawable/ic_account_icon"
-                    android:drawablePadding="16dp"
-                    android:drawableTint="@color/mid_blue"
+                    android:drawableEnd="@drawable/ic_arrow_pointer"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:paddingStart="24dp" android:paddingEnd="24dp" android:paddingTop="16dp" android:paddingBottom="16dp"
-                    android:text="Logout" android:textSize="18sp"/>
+                    android:text="Edit Profile" android:textSize="18sp"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_height="1dp"
+                android:background="#f3f3f3"/>
+            <RelativeLayout
+                android:id="@+id/change_password_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/change_password"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@drawable/ic_arrow_pointer"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:paddingStart="24dp" android:paddingEnd="24dp" android:paddingTop="16dp" android:paddingBottom="16dp"
+                    android:text="Change Password" android:textSize="18sp"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#f3f3f3"/>
+            <RelativeLayout
+                android:id="@+id/log_out_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/log_out"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    android:paddingStart="24dp" android:paddingEnd="24dp" android:paddingTop="16dp" android:paddingBottom="16dp"
+                    android:text="Sign Out" android:textSize="18sp"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
