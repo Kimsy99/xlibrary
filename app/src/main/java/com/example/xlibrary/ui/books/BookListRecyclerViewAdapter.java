@@ -50,7 +50,8 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRe
         holder.mBookCardView.setOnClickListener(click -> {
            System.out.println("CLICKKKKKKK");
 //            navController.navigate(R.id.action_navigation_library_to_navigation_book_detail);
-            navController.navigate(BookListFragmentDirections.actionNavigationLibraryToNavigationBookDetail(mValues.get(position).id));
+//            navController.navigate(BookListFragmentDirections.actionNavigationLibraryToNavigationBookDetail(mValues.get(position).id));
+            navController.navigate(BookFragmentDirections.actionNavigationLibraryToNavigationBookDetail(mValues.get(position).id));
 //            navController.navigate();
         });
 

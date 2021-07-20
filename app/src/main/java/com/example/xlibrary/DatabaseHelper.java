@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    book_language TEXT default 0 not null,\n" +
                 "    book_release_year int not null,\n" +
                 "    book_description TEXT not null,\n" +
-                "    borrowed int not null,\n" +
+                "    borrowed int not null default 0,\n" +
                 "    created_date int not null,\n" +
                 "    book_image BLOB\n" +
                 ");");
@@ -60,11 +60,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    uid INTEGER primary key autoincrement ,\n" +
                 "    username TEXT not null,\n" +
                 "    password TEXT not null,\n" +
-                "    email TEXT unique not null\n" +
+                "    email TEXT unique not null,\n" +
+                "    admin INT default 0\n" +
                 ");");
-        sqLiteDatabase.execSQL("insert into user(username, password, email) VALUES\n" +
-                "('kimsy', 'kimsy', 'kimsy@gmail.com'),\n" +
-                "('test', 'test', 'test@gmail.com');");
+        sqLiteDatabase.execSQL("insert into user(username, password, email, admin) VALUES\n" +
+                "('kimsy', 'kimsy', 'kimsy@gmail.com', 0),\n" +
+                "('admin', 'admin', 'admin@gmail.com', 1);");
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS borrowed_books;\n");
         sqLiteDatabase.execSQL("CREATE TABLE borrowed_books\n" +
                 "(\n" +
@@ -88,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public UserSession getCurrentUserCreds()
 {
         SharedPreferences sp = context.getSharedPreferences("user", 0);
-        return new UserSession(sp.getInt("uid", 0), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""));
+        return new UserSession(sp.getInt("uid", 0), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""), sp.getInt("admin", 0));
     }
     public Cursor getAllBooks(){
         SQLiteDatabase db = getWritableDatabase();
@@ -125,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getUser(String email, String password){
         SQLiteDatabase db = getWritableDatabase();
-        return db.rawQuery("SELECT uid, username, password, email FROM user WHERE email='" + email + "' AND password='" + password + "'", null);
+        return db.rawQuery("SELECT uid, username, password, email, admin FROM user WHERE email='" + email + "' AND password='" + password + "'", null);
     }
     public boolean editProfile(int uid, String username, String email){
         SQLiteDatabase db = getWritableDatabase();
@@ -151,6 +152,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long curr = Long.parseLong((""+currWhole).substring(0,10));
         db.execSQL("INSERT INTO borrowed_books(uid, book_id, borrow_date) VALUES (?,?,?)", new Object[] {user_id, book_id, curr});
         db.execSQL("UPDATE books SET borrowed = 1 WHERE book_id=" + book_id);
+        return true;
+    }
+    public void addBooks(String title, String description, String author, String pages, String language, String release_year, String category, Bitmap bookImage){
+        SQLiteDatabase db = getWritableDatabase();
+        long currWhole = new Date().getTime();
+        long curr = Long.parseLong((""+currWhole).substring(0,10));
+        String sql = "INSERT INTO books(book_title, book_author, book_category,book_pages, book_language, book_release_year, book_description, borrowed, created_date, book_image) " +
+                "values (?, ?,?, " + Integer.parseInt(pages) +",?," + Integer.parseInt(release_year) +",?,0, "+ curr+",?)";
+        SQLiteStatement insert = db.compileStatement(sql);
+        insert.bindString(1, title);
+        insert.bindString(2, author);
+        insert.bindString(3, category);
+        insert.bindString(4, language);
+        insert.bindString(5, description);
+        insert.bindBlob(6, getBitmapAsByteArray(bookImage));
+        insert.executeInsert();
+        insert.clearBindings();
+    }
+    public boolean deleteBook(int book_id){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM books WHERE book_id = " + book_id);
+        db.execSQL("DELETE FROM borrowed_books WHERE book_id = " + book_id);
         return true;
     }
     public static byte[] getBitmapAsByteArray(Bitmap bitmap)

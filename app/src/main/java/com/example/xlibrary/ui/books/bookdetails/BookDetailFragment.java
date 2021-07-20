@@ -117,7 +117,16 @@ public class BookDetailFragment extends Fragment {
         book_desc.setText(bookModel.description);
         //mock user_id = 1;
         int user_id = userSession.uid;
-
+        if(userSession.admin == 1){
+            Button btnDelete = view.findViewById(R.id.delete_book_btn);
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setOnClickListener(v -> {
+                boolean res = db.deleteBook(bookModel.id);
+                if(res){
+                    Toast.makeText(getContext(), "Book had been deleted", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         if(bookModel.borrowed == 1){
             if(bookModel.borrower_id == user_id && bookModel.return_date == 0){
                 btn.setText("RETURN");

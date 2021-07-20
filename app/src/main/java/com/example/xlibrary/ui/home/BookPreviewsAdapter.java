@@ -42,9 +42,16 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
         System.out.println("card: " + card);
         holder.title.setText(card.title);
         holder.category.setText(card.category);
-//        holder.image.setImageBitmap(card.bookImage);
+        if(card.bookImage != null){
+            holder.image.setImageBitmap(card.bookImage);
+        }else{
+            holder.image.setImageResource(R.drawable.car1);
+        }
         holder.bookCardItemLayout.setOnClickListener(v -> {
-           navController.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail(card.id));
+            System.out.println("ID: "+ card.id);
+            System.out.println("navController: "+ navController);
+            HomeFragmentDirections.ActionNavigationHomeToNavigationBookDetail test = HomeFragmentDirections.actionNavigationHomeToNavigationBookDetail(card.id);
+            navController.navigate(test);
         });
     }
 
@@ -64,7 +71,7 @@ public class BookPreviewsAdapter extends RecyclerView.Adapter<BookPreviewsAdapte
             super(itemView);
             title = itemView.findViewById(R.id.book_preview_title);
             category = itemView.findViewById(R.id.book_preview_category);
-//            image = itemView.findViewById(R.id.card_book_preview_image);
+            image = itemView.findViewById(R.id.card_book_preview_image);
             bookCardItemLayout = itemView.findViewById(R.id.book_card_preview_view);
             this.onCardListener = onCardListener;
 

@@ -166,6 +166,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="8dp"
+        android:id="@+id/submit_btn_wrapper"
         app:layout_constraintTop_toBottomOf="@+id/book_desc">
         <View
             android:layout_width="0dp"
@@ -180,6 +181,31 @@
             android:backgroundTint="@color/green"
             android:gravity="center"
             android:text="Borrow" />
+        <View
+        android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/submit_btn_wrapper">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/delete_book_btn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/black"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="Delete Book" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"

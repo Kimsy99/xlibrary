@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -67,20 +69,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+
+
     }
 
     @Override
@@ -106,8 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         getBorrowedBooks();
         System.out.println("newBookLists: "+ newBookLists);
         System.out.println("borrowedBookLists: "+ borrowedBookLists);
-        loadRecyclerCards(newBooksRecyclerView, newBookLists);
-        loadRecyclerCards(newBorrowedBooksRecyclerView, borrowedBookLists);
+
 //        loadRecyclerCards(newBorrowedBooksRecyclerView, newBookLists);
 
         //play video
@@ -120,6 +117,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
         mediaController.setAnchorView(videoView);
         return root;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        System.out.println("navController: " + navController);
+//        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+//        getParentFragmentManager()
+        loadRecyclerCards(newBooksRecyclerView, newBookLists);
+        loadRecyclerCards(newBorrowedBooksRecyclerView, borrowedBookLists);
+    }
+
     private int getBookCount(){
         Cursor cursor = databaseHelper.getBookCount();
         if(cursor.moveToFirst()){
@@ -176,7 +185,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     }
     private void loadRecyclerCards(RecyclerView recyclerView, ArrayList<BookPreviewModel> cardModels)
     {
-        bookPreviewsAdapter= new BookPreviewsAdapter(cardModels, Navigation.findNavController(getActivity(), R.id.nav_host_fragment), this);
+        System.out.println("navController again: " + navController);
+        bookPreviewsAdapter= new BookPreviewsAdapter(cardModels, navController, this);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
