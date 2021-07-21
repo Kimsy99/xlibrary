@@ -64,11 +64,12 @@ android:layout_height="match_parent">
         >
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             app:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/light_blue"
             app:cardElevation="5dp">
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableTint="?android:attr/textColorPrimary" android:hint="Search Books"

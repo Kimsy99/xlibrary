@@ -9,6 +9,7 @@ import androidx.navigation.NavController;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.xlibrary.DatabaseHelper;
@@ -57,6 +58,30 @@ public class BookFragment extends Fragment {
             Intent intent = new Intent(getActivity(), CreateBookActivity.class);
             startActivity(intent);
         });
+        BookListFragment bookListFragment = (BookListFragment)getChildFragmentManager().findFragmentById(R.id.all_book_list);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) view.findViewById(R.id.search_book);
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                System.out.println("submitText: " + query);
+                bookListFragment.searchBookList(query, getActivity());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("searchText: " + newText);
+                if(newText.isEmpty()){
+                    bookListFragment.searchBookList("", getActivity());
+
+                }
+                return false;
+            }
+        });
         return view;
+    }
+    public boolean onQueryTextSubmit(String query) {
+// do something on text submit
+        return false;
     }
 }

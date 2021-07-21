@@ -1,5 +1,6 @@
 package com.example.xlibrary.ui.books;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ public class BookListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     DatabaseHelper databaseHelper;
+    public BookListRecyclerViewAdapter adapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -79,12 +81,13 @@ public class BookListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 //                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BookListRecyclerViewAdapter(getBookList(), Navigation.findNavController(getActivity(), R.id.nav_host_fragment)));
+            adapter=new BookListRecyclerViewAdapter(getBookList(), Navigation.findNavController(getActivity(), R.id.nav_host_fragment));
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
     public ArrayList<BookCardModel> getBookList(){
-        Cursor books = databaseHelper.getAllBooks();
+        Cursor books = databaseHelper.getAllBooks("");
         ArrayList<BookCardModel> bookList = new ArrayList<>();
         while(books.moveToNext()){
             byte[] issueImageBytes = books.getBlob(3);
@@ -99,5 +102,24 @@ public class BookListFragment extends Fragment {
         }
         books.close();
         return bookList;
+    }
+    public void searchBookList(String str, Activity context){
+        adapter.mValues.clear();
+        databaseHelper = new DatabaseHelper(context);
+        Cursor books = databaseHelper.getAllBooks(str);
+        System.out.println("search books");
+        while(books.moveToNext()){
+            System.out.println("title: "+ books.getString(1));
+            byte[] issueImageBytes = books.getBlob(3);
+            Bitmap bitmap = issueImageBytes != null ? BitmapFactory.decodeByteArray(issueImageBytes, 0, issueImageBytes.length) : null;
+            adapter.mValues.add(new BookCardModel(
+                    books.getInt(0),
+                    books.getString(1),
+                    books.getString(2),
+                    books.getString(4),
+                    bitmap
+            ));
+        }
+        adapter.notifyDataSetChanged();
     }
 }

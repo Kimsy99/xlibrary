@@ -91,9 +91,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SharedPreferences sp = context.getSharedPreferences("user", 0);
         return new UserSession(sp.getInt("uid", 0), sp.getString("username", ""), sp.getString("email", ""), sp.getString("password", ""), sp.getInt("admin", 0));
     }
-    public Cursor getAllBooks(){
+    public Cursor getAllBooks(String str){
         SQLiteDatabase db = getWritableDatabase();
-        return db.rawQuery("SELECT book_id, book_title, book_category, book_image, book_author FROM books", null);
+        if(str.isEmpty())
+            return db.rawQuery("SELECT book_id, book_title, book_category, book_image, book_author FROM books", null);
+        else{
+            System.out.println("search here: " + str);
+//            return db.rawQuery("SELECT book_id, book_title, book_category, book_image, book_author FROM books WHERE book_title LIKE " + "'&" + str + "%'" +" ORDER BY created_date DESC;", null);
+            return db.rawQuery("SELECT book_id, book_title, book_category, book_image, book_author FROM books WHERE book_title LIKE "+"'%" + str +"%'"+" ORDER BY created_date DESC;", null);
+            }
     }
     public Cursor getNewBooks(){
         SQLiteDatabase db = getWritableDatabase();

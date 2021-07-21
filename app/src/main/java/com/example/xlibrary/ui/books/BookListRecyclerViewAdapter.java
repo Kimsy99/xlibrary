@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<BookListRecyclerViewAdapter.ViewHolder> {
 
-    private final ArrayList<BookCardModel> mValues;
+    final ArrayList<BookCardModel> mValues;
     private final NavController navController;
     public BookListRecyclerViewAdapter(ArrayList<BookCardModel> items, NavController navController) {
         mValues = items;
