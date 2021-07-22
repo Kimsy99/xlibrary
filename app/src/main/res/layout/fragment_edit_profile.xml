@@ -28,7 +28,7 @@
                 android:textColor="@color/white"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="Your Profile"/>
+                android:text="Edit Profile"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:id="@+id/edit_profile_username"
                 style="@style/outlinedbox_text_input_layout_style"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:drawableTint="?android:attr/textColorPrimary" android:hint="Username"
+                android:drawableTint="?android:attr/textColorPrimary"
                 android:layout_marginHorizontal="16dp"
                 android:inputType="text" android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -117,7 +117,7 @@
                 android:id="@+id/edit_profile_email"
                 style="@style/outlinedbox_text_input_layout_style"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:drawableTint="?android:attr/textColorPrimary" android:hint="Email Address"
+                android:drawableTint="?android:attr/textColorPrimary"
                 android:layout_marginHorizontal="16dp"
                 android:inputType="text" android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>

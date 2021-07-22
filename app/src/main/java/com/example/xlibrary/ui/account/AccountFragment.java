@@ -1,6 +1,8 @@
 package com.example.xlibrary.ui.account;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -28,14 +30,8 @@ import java.awt.font.TextAttribute;
  */
 public class AccountFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     NavController navController;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
     DatabaseHelper db;
     UserSession userSession;
     public AccountFragment() {
@@ -53,10 +49,6 @@ public class AccountFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static AccountFragment newInstance(String param1, String param2) {
         AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -74,6 +66,7 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         TextView profileTextView = view.findViewById(R.id.profile);
+        TextView moreDetail = view.findViewById(R.id.more);
         TextView signOutTextView = view.findViewById(R.id.log_out);
         TextView accountUsernameTextView = view.findViewById(R.id.account_username);
         TextView changePwdTextView = view.findViewById(R.id.change_password);
@@ -88,10 +81,14 @@ public class AccountFragment extends Fragment {
         changePwdTextView.setOnClickListener(v -> {
             navController.navigate(AccountFragmentDirections.actionNavigationAccountToNavigationChangePassword());
         });
+        moreDetail.setOnClickListener(v -> {
+            Intent intent=new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://linc.xmu.edu.my/"));
+            startActivity(intent);
+        });
         signOutTextView.setOnClickListener(v -> {
             SharedPreferences info = getContext().getSharedPreferences("user", 0);
             info.edit().clear().apply();
-
             getActivity().finish();
         });
         return view;

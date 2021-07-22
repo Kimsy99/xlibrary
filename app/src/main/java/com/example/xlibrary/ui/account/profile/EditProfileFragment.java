@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ public class EditProfileFragment extends Fragment {
 
     DatabaseHelper db;
     UserSession userSession;
+    NavController navController;
 
     public EditProfileFragment() {
         // Required empty public constructor
@@ -51,6 +54,7 @@ public class EditProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = new DatabaseHelper(getContext());
         userSession = db.getCurrentUserCreds();
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
     }
 
     @Override
@@ -70,6 +74,7 @@ public class EditProfileFragment extends Fragment {
             boolean res = db.editProfile(userSession.uid, usernameInputNew.getText().toString(), emailInputNew.getText().toString());
             if(res == true ){
                 Toast.makeText(getContext(), "Successfully Update Profile", Toast.LENGTH_SHORT).show();
+                navController.navigate(EditProfileFragmentDirections.actionNavigationEditProfileToNavigationAccount());
                 SharedPreferences sp = getActivity().getSharedPreferences("user", 0);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("username", usernameInputNew.getText().toString());

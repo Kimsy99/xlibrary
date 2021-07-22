@@ -73,7 +73,11 @@
         android:name="com.example.xlibrary.ui.account.profile.EditProfileFragment"
         android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile"
-        />
+        >
+        <action
+            android:id="@+id/action_navigation_edit_profile_to_navigation_account"
+            app:destination="@id/navigation_account" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_change_password"
         android:name="com.example.xlibrary.ui.account.profile.ChangePasswordFragment"
