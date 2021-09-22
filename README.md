@@ -1,10 +1,4 @@
-# xlibrary
-https://www.geeksforgeeks.org/android-horizontal-recyclerview-with-examples/
+# xlibrary - A Library Management Mobile Application
+Due to Covid19 pandemic, we require social distancing. Which leads to difficulty for libraries to operate. Therefore, this application allow users borrow books from library remotely, and just pick up the books from library.
 
-Xlibrary
-- Due to covid, we require social distancing, borrow books remotely
-- sell second had book (bcs nowadays its hard for library to survive during this covid situation)
-- library have no revenue, hard to survive
-- can sell old books/used books/new books
-
-Libraries had also introduced self-service and touchless interactions such as self-checkout, curbside pickup, scan and deliver in order to curb the spread of the disease and reduce traffic in the library (Cox, 2020).
+Technologies: Android, Java, Gradle, SQlite
